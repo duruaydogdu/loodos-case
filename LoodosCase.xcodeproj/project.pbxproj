@@ -41,6 +41,7 @@
 		797FB0522DFEE72B00057EAB /* NotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 797FB0512DFEE72B00057EAB /* NotificationService.swift */; };
 		797FB0552DFEE8C800057EAB /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 797FB0542DFEE8C800057EAB /* Alamofire */; };
 		797FB0572DFEE8C800057EAB /* AlamofireDynamic in Frameworks */ = {isa = PBXBuildFile; productRef = 797FB0562DFEE8C800057EAB /* AlamofireDynamic */; };
+		797FB05A2DFEE91500057EAB /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 797FB0592DFEE91500057EAB /* Kingfisher */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -83,6 +84,7 @@
 			files = (
 				797FB0552DFEE8C800057EAB /* Alamofire in Frameworks */,
 				797FB0572DFEE8C800057EAB /* AlamofireDynamic in Frameworks */,
+				797FB05A2DFEE91500057EAB /* Kingfisher in Frameworks */,
 				797FB0092DFEB24300057EAB /* FirebaseMessaging in Frameworks */,
 				797FB0072DFEB24300057EAB /* FirebaseCore in Frameworks */,
 				797FB0052DFEB24300057EAB /* FirebaseAnalytics in Frameworks */,
@@ -272,6 +274,7 @@
 				797FB00A2DFEB24300057EAB /* FirebaseRemoteConfig */,
 				797FB0542DFEE8C800057EAB /* Alamofire */,
 				797FB0562DFEE8C800057EAB /* AlamofireDynamic */,
+				797FB0592DFEE91500057EAB /* Kingfisher */,
 			);
 			productName = LoodosCase;
 			productReference = 797FAFEA2DFDB8D700057EAB /* LoodosCase.app */;
@@ -304,6 +307,7 @@
 			packageReferences = (
 				797FB0032DFEB24300057EAB /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 				797FB0532DFEE8C800057EAB /* XCRemoteSwiftPackageReference "Alamofire" */,
+				797FB0582DFEE91500057EAB /* XCRemoteSwiftPackageReference "Kingfisher" */,
 			);
 			productRefGroup = 797FAFEB2DFDB8D700057EAB /* Products */;
 			projectDirPath = "";
@@ -595,6 +599,14 @@
 				minimumVersion = 5.10.2;
 			};
 		};
+		797FB0582DFEE91500057EAB /* XCRemoteSwiftPackageReference "Kingfisher" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/onevcat/Kingfisher";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 8.3.2;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -627,6 +639,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 797FB0532DFEE8C800057EAB /* XCRemoteSwiftPackageReference "Alamofire" */;
 			productName = AlamofireDynamic;
+		};
+		797FB0592DFEE91500057EAB /* Kingfisher */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 797FB0582DFEE91500057EAB /* XCRemoteSwiftPackageReference "Kingfisher" */;
+			productName = Kingfisher;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
