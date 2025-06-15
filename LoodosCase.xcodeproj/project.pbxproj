@@ -10,6 +10,7 @@
 		79054F502DFEF3AB0006CEA4 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 79054F4F2DFEF3AB0006CEA4 /* FirebaseAnalytics */; };
 		79054F522DFEF3AB0006CEA4 /* FirebaseMessaging in Frameworks */ = {isa = PBXBuildFile; productRef = 79054F512DFEF3AB0006CEA4 /* FirebaseMessaging */; };
 		79054F542DFEF3AB0006CEA4 /* FirebaseRemoteConfig in Frameworks */ = {isa = PBXBuildFile; productRef = 79054F532DFEF3AB0006CEA4 /* FirebaseRemoteConfig */; };
+		796772262DFF4267007E6F7D /* MovieCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 796772252DFF4267007E6F7D /* MovieCollectionViewCell.swift */; };
 		797FAFEE2DFDB8D700057EAB /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 797FAFED2DFDB8D700057EAB /* AppDelegate.swift */; };
 		797FAFF02DFDB8D700057EAB /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 797FAFEF2DFDB8D700057EAB /* SceneDelegate.swift */; };
 		797FAFF52DFDB8D700057EAB /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 797FAFF32DFDB8D700057EAB /* Main.storyboard */; };
@@ -43,6 +44,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		796772252DFF4267007E6F7D /* MovieCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieCollectionViewCell.swift; sourceTree = "<group>"; };
 		797FAFEA2DFDB8D700057EAB /* LoodosCase.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LoodosCase.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		797FAFED2DFDB8D700057EAB /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		797FAFEF2DFDB8D700057EAB /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -222,6 +224,7 @@
 			children = (
 				797FB0382DFEBCA100057EAB /* HomeViewController.swift */,
 				797FB03E2DFEBCCF00057EAB /* HomeViewModel.swift */,
+				796772252DFF4267007E6F7D /* MovieCollectionViewCell.swift */,
 			);
 			path = Home;
 			sourceTree = "<group>";
@@ -342,6 +345,7 @@
 				797FB0412DFEBD0200057EAB /* DetailViewController.swift in Sources */,
 				797FB01A2DFEBB0D00057EAB /* NetworkManager.swift in Sources */,
 				797FB0222DFEBB7700057EAB /* UIView+Extensions.swift in Sources */,
+				796772262DFF4267007E6F7D /* MovieCollectionViewCell.swift in Sources */,
 				797FB0522DFEE72B00057EAB /* NotificationService.swift in Sources */,
 				797FB01E2DFEBB3100057EAB /* ConnectivityMonitor.swift in Sources */,
 				797FB0202DFEBB4000057EAB /* AlertHelper.swift in Sources */,
