@@ -26,7 +26,7 @@ final class HomeViewModel {
 
     // MARK: - Actions
     func searchMovies(query: String) {
-        guard !query.isEmpty else {
+        guard !query.trimmingCharacters(in: .whitespaces).isEmpty else {
             self.movies = []
             self.onMoviesUpdated?()
             return

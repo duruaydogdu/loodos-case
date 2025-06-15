@@ -9,6 +9,7 @@ import Foundation
 
 protocol MovieServiceProtocol {
     func searchMovies(query: String) async throws -> MovieResponse
+    func fetchMovieDetail(imdbID: String) async throws -> MovieDetail
 }
 
 final class MovieService: MovieServiceProtocol {
@@ -25,4 +26,13 @@ final class MovieService: MovieServiceProtocol {
 
         return try await networkManager.request(url: url, type: MovieResponse.self)
     }
+
+    func fetchMovieDetail(imdbID: String) async throws -> MovieDetail {
+        guard let url = APIEndpoints.movieDetailURL(imdbID: imdbID) else {
+            throw URLError(.badURL)
+        }
+
+        return try await networkManager.request(url: url, type: MovieDetail.self)
+    }
 }
+

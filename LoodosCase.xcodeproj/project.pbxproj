@@ -10,6 +10,7 @@
 		79054F502DFEF3AB0006CEA4 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 79054F4F2DFEF3AB0006CEA4 /* FirebaseAnalytics */; };
 		79054F522DFEF3AB0006CEA4 /* FirebaseMessaging in Frameworks */ = {isa = PBXBuildFile; productRef = 79054F512DFEF3AB0006CEA4 /* FirebaseMessaging */; };
 		79054F542DFEF3AB0006CEA4 /* FirebaseRemoteConfig in Frameworks */ = {isa = PBXBuildFile; productRef = 79054F532DFEF3AB0006CEA4 /* FirebaseRemoteConfig */; };
+		7912B5FF2DFF7BB700C42EE5 /* MovieDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7912B5FE2DFF7BB700C42EE5 /* MovieDetail.swift */; };
 		796772262DFF4267007E6F7D /* MovieCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 796772252DFF4267007E6F7D /* MovieCollectionViewCell.swift */; };
 		797FAFEE2DFDB8D700057EAB /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 797FAFED2DFDB8D700057EAB /* AppDelegate.swift */; };
 		797FAFF02DFDB8D700057EAB /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 797FAFEF2DFDB8D700057EAB /* SceneDelegate.swift */; };
@@ -44,6 +45,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		7912B5FE2DFF7BB700C42EE5 /* MovieDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieDetail.swift; sourceTree = "<group>"; };
 		796772252DFF4267007E6F7D /* MovieCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieCollectionViewCell.swift; sourceTree = "<group>"; };
 		797FAFEA2DFDB8D700057EAB /* LoodosCase.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LoodosCase.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		797FAFED2DFDB8D700057EAB /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -196,6 +198,7 @@
 			children = (
 				797FB0472DFEE6CA00057EAB /* Movie.swift */,
 				797FB0492DFEE6D400057EAB /* MovieResponse.swift */,
+				7912B5FE2DFF7BB700C42EE5 /* MovieDetail.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -350,6 +353,7 @@
 				797FB01E2DFEBB3100057EAB /* ConnectivityMonitor.swift in Sources */,
 				797FB0202DFEBB4000057EAB /* AlertHelper.swift in Sources */,
 				797FB01C2DFEBB1E00057EAB /* APIEndpoints.swift in Sources */,
+				7912B5FF2DFF7BB700C42EE5 /* MovieDetail.swift in Sources */,
 				797FB0372DFEBC9400057EAB /* SplashViewModel.swift in Sources */,
 				797FB04C2DFEE6F800057EAB /* MovieService.swift in Sources */,
 				797FAFF02DFDB8D700057EAB /* SceneDelegate.swift in Sources */,

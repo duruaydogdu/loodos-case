@@ -9,13 +9,17 @@ import UIKit
 
 final class HomeViewController: UIViewController {
 
+    // MARK: - IBOutlets
     @IBOutlet weak var searchBar: UISearchBar!
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var loadingIndicator: UIActivityIndicatorView!
     @IBOutlet weak var emptyLabel: UILabel!
 
+    // MARK: - Properties
     private var viewModel: HomeViewModel = HomeViewModel()
+    private var selectedMovieID: String?
 
+    // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
@@ -24,7 +28,6 @@ final class HomeViewController: UIViewController {
     }
 
     // MARK: - Setup
-
     private func setupUI() {
         searchBar.delegate = self
         collectionView.dataSource = self
@@ -42,6 +45,7 @@ final class HomeViewController: UIViewController {
         }
     }
 
+    // MARK: - ViewModel Bindings
     private func bindViewModel() {
         viewModel.onMoviesUpdated = { [weak self] in
             DispatchQueue.main.async {
@@ -49,7 +53,7 @@ final class HomeViewController: UIViewController {
                 self.loadingIndicator.stopAnimating()
                 self.loadingIndicator.isHidden = true
                 self.collectionView.reloadData()
-                self.emptyLabel.isHidden = !self.viewModel.movies.isEmpty
+                self.updateEmptyState()
             }
         }
 
@@ -60,10 +64,25 @@ final class HomeViewController: UIViewController {
             }
         }
     }
-}
+
+    // MARK: - Empty State
+    private func updateEmptyState() {
+        let isEmpty = viewModel.movies.isEmpty
+        emptyLabel.isHidden = !isEmpty
+        emptyLabel.text = isEmpty ? "Sonuç bulunamadı." : ""
+    }
+
+    // MARK: - Navigation (Segue)
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "showDetail",
+           let destination = segue.destination as? DetailViewController {
+            destination.imdbID = selectedMovieID
+        }
+    }
+    git }
+
 
 // MARK: - UISearchBarDelegate
-
 extension HomeViewController: UISearchBarDelegate {
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         guard let query = searchBar.text, !query.isEmpty else { return }
@@ -72,9 +91,9 @@ extension HomeViewController: UISearchBarDelegate {
     }
 }
 
-// MARK: - UICollectionViewDataSource & Layout
-
+// MARK: - UICollectionViewDataSource & DelegateFlowLayout
 extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return viewModel.movies.count
     }
@@ -85,7 +104,6 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
                                                             for: indexPath) as? MovieCollectionViewCell else {
             return UICollectionViewCell()
         }
-
         let movie = viewModel.movies[indexPath.item]
         cell.configure(with: movie)
         return cell
@@ -101,4 +119,10 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
         let textHeight: CGFloat = 48 // title + year label alanı
         return CGSize(width: width, height: posterHeight + textHeight)
     }
+
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let movie = viewModel.movies[indexPath.item]
+        selectedMovieID = movie.imdbID
+    }
+
 }
