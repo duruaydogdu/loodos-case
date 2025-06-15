@@ -6,3 +6,10 @@
 //
 
 import Foundation
+
+enum Constants {
+    enum API {
+        static let apiKey = "d6ce9b04"
+        static let baseURL = "https://www.omdbapi.com/"
+    }
+}
