@@ -6,26 +6,27 @@
 //
 
 import Foundation
+import Alamofire
 
 protocol NetworkManagerProtocol {
-    func request<T: Decodable>(url: URL, type: T.Type) async throws -> T
+    func request<T: Decodable>(url: URLConvertible, type: T.Type) async throws -> T
 }
 
 final class NetworkManager: NetworkManagerProtocol {
-    func request<T: Decodable>(url: URL, type: T.Type) async throws -> T {
-        let (data, response) = try await URLSession.shared.data(from: url)
-
-        guard let httpResponse = response as? HTTPURLResponse,
-              200..<300 ~= httpResponse.statusCode else {
-            throw URLError(.badServerResponse)
-        }
-
-        do {
-            let decoded = try JSONDecoder().decode(T.self, from: data)
-            return decoded
-        } catch {
-            throw error
+    func request<T: Decodable>(url: URLConvertible, type: T.Type) async throws -> T {
+        return try await withCheckedThrowingContinuation { continuation in
+            AF.request(url)
+                .validate(statusCode: 200..<300)
+                .responseDecodable(of: T.self) { response in
+                    switch response.result {
+                    case .success(let decoded):
+                        continuation.resume(returning: decoded)
+                    case .failure(let error):
+                        continuation.resume(throwing: error)
+                    }
+                }
         }
     }
 }
+
 
