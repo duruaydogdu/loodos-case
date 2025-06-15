@@ -14,17 +14,25 @@ final class SplashViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        print("SplashViewController loaded")
         titleLabel.alpha = 0
         bindViewModel()
-        viewModel.fetchSplashText()
+        viewModel.waitAndFetchSplashText()
     }
 
     private func bindViewModel() {
         viewModel.onTextFetched = { [weak self] text in
             DispatchQueue.main.async {
-                self?.titleLabel.text = text
-                UIView.animate(withDuration: 0.3) {
-                    self?.titleLabel.alpha = 1
+                print("onTextFetched çağrıldı. Gelen text: \(text ?? "nil")")
+
+                if let text = text {
+                    self?.titleLabel.text = text
+                    UIView.animate(withDuration: 0.3) {
+                        self?.titleLabel.alpha = 1
+                    }
+                    self?.proceedAfterDelay()
+                } else {
+                    self?.showNoInternetAlert()
                 }
             }
         }
@@ -32,7 +40,26 @@ final class SplashViewController: UIViewController {
 
     private func proceedAfterDelay() {
         DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) {
-            // TODO: Internet varsa segue veya kodla Home ekranına geç
+            if ConnectivityMonitor.shared.isConnected {
+                let storyboard = UIStoryboard(name: "Main", bundle: nil)
+                let homeVC = storyboard.instantiateViewController(withIdentifier: "HomeViewController")
+                homeVC.modalPresentationStyle = .fullScreen
+                self.present(homeVC, animated: true)
+            } else {
+                self.showNoInternetAlert()
+            }
         }
     }
+
+    private func showNoInternetAlert() {
+        let alert = UIAlertController(title: "Bağlantı Yok",
+                                      message: "Lütfen internet bağlantınızı kontrol edin.",
+                                      preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Tekrar Dene", style: .default, handler: { _ in
+            self.bindViewModel() 
+            self.viewModel.waitAndFetchSplashText()
+        }))
+        present(alert, animated: true)
+    }
+
 }
