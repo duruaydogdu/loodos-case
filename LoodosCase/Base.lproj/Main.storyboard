@@ -110,7 +110,7 @@
                                             <outlet property="posterImageView" destination="PfQ-27-47I" id="ElD-fP-sVs"/>
                                             <outlet property="titleLabel" destination="L6h-0c-ZXN" id="GPq-jO-RZe"/>
                                             <outlet property="yearLabel" destination="p9C-gx-3KC" id="zy4-Qn-ocK"/>
-                                            <segue destination="PdX-IN-tWi" kind="show" identifier="showDetail" id="W08-5B-JOn"/>
+                                            <segue destination="PdX-IN-tWi" kind="show" identifier="showDetail" id="99k-0F-cv1"/>
                                         </connections>
                                     </collectionViewCell>
                                 </cells>

@@ -27,6 +27,7 @@ final class DetailViewController: UIViewController {
     // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
+        print("Detail ekranı açıldı. imdbID: \(imdbID ?? "nil")")
         bindViewModel()
         fetchDetail()
     }
@@ -51,6 +52,7 @@ final class DetailViewController: UIViewController {
 
     // MARK: - UI Binding
     private func configure(with detail: MovieDetail) {
+        print("Veriler yükleniyor: \(detail.title)")
         titleLabel.text = detail.title
         plotLabel.text = detail.plot
         runtimeLabel.text = detail.runtime

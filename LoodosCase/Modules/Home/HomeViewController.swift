@@ -16,7 +16,7 @@ final class HomeViewController: UIViewController {
     @IBOutlet weak var emptyLabel: UILabel!
 
     // MARK: - Properties
-    private var viewModel: HomeViewModel = HomeViewModel()
+    private var viewModel = HomeViewModel()
     private var selectedMovieID: String?
 
     // MARK: - Lifecycle
@@ -45,7 +45,7 @@ final class HomeViewController: UIViewController {
         }
     }
 
-    // MARK: - ViewModel Bindings
+    // MARK: - ViewModel Binding
     private func bindViewModel() {
         viewModel.onMoviesUpdated = { [weak self] in
             DispatchQueue.main.async {
@@ -72,30 +72,31 @@ final class HomeViewController: UIViewController {
         emptyLabel.text = isEmpty ? "Sonuç bulunamadı." : ""
     }
 
-    // MARK: - Navigation (Segue)
+    // MARK: - Navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "showDetail",
            let destination = segue.destination as? DetailViewController {
             destination.imdbID = selectedMovieID
+            print("IMDb ID gönderildi: \(selectedMovieID ?? "nil")")
         }
     }
-    git }
 
+}
 
 // MARK: - UISearchBarDelegate
 extension HomeViewController: UISearchBarDelegate {
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        guard let query = searchBar.text, !query.isEmpty else { return }
+        guard let query = searchBar.text, !query.trimmingCharacters(in: .whitespaces).isEmpty else { return }
         viewModel.searchMovies(query: query)
         searchBar.resignFirstResponder()
     }
 }
 
-// MARK: - UICollectionViewDataSource & DelegateFlowLayout
+// MARK: - UICollectionViewDataSource & UICollectionViewDelegateFlowLayout
 extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
 
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return viewModel.movies.count
+        viewModel.movies.count
     }
 
     func collectionView(_ collectionView: UICollectionView,
@@ -112,17 +113,14 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
                         sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let padding: CGFloat = 12 + 8 + 12 // sectionInsets + spacing
+        let padding: CGFloat = 12 + 8 + 12
         let availableWidth = collectionView.bounds.width - padding
         let width = availableWidth / 2
-        let posterHeight = width * 3 / 2 // 2:3 oranı (genişlik × 1.5)
-        let textHeight: CGFloat = 48 // title + year label alanı
-        return CGSize(width: width, height: posterHeight + textHeight)
+        let height = width * 1.5 + 48 // 2:3 oranlı görsel + yazılar
+        return CGSize(width: width, height: height)
     }
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let movie = viewModel.movies[indexPath.item]
-        selectedMovieID = movie.imdbID
+        selectedMovieID = viewModel.movies[indexPath.item].imdbID
     }
-
 }
