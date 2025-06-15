@@ -75,19 +75,19 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="PfQ-27-47I">
-                                                    <rect key="frame" x="0.0" y="0.0" width="128" height="72"/>
+                                                    <rect key="frame" x="8" y="8" width="112" height="168"/>
                                                     <constraints>
-                                                        <constraint firstAttribute="width" secondItem="PfQ-27-47I" secondAttribute="height" multiplier="16:9" id="cyQ-pv-Esm"/>
+                                                        <constraint firstAttribute="width" secondItem="PfQ-27-47I" secondAttribute="height" multiplier="2:3" id="aNG-ql-8Jx"/>
                                                     </constraints>
                                                 </imageView>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="751" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="L6h-0c-ZXN">
-                                                    <rect key="frame" x="8" y="80" width="112" height="20.333333333333329"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="252" verticalCompressionResistancePriority="751" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="L6h-0c-ZXN">
+                                                    <rect key="frame" x="8" y="184" width="112" height="20.333333333333343"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="p9C-gx-3KC">
-                                                    <rect key="frame" x="8" y="104.33333333333333" width="112" height="19.666666666666671"/>
+                                                    <rect key="frame" x="8" y="208.33333333333334" width="112" height="20.333333333333343"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
@@ -95,13 +95,13 @@
                                             </subviews>
                                             <constraints>
                                                 <constraint firstItem="p9C-gx-3KC" firstAttribute="leading" secondItem="hCT-fg-Sqg" secondAttribute="leading" constant="8" id="1TG-yw-VnJ"/>
+                                                <constraint firstItem="p9C-gx-3KC" firstAttribute="top" secondItem="L6h-0c-ZXN" secondAttribute="bottom" constant="4" id="3DV-lf-IZz"/>
                                                 <constraint firstAttribute="trailing" secondItem="L6h-0c-ZXN" secondAttribute="trailing" constant="8" id="3JP-Jk-EuL"/>
                                                 <constraint firstAttribute="trailing" secondItem="p9C-gx-3KC" secondAttribute="trailing" constant="8" id="83y-ug-1Rr"/>
-                                                <constraint firstAttribute="trailing" secondItem="PfQ-27-47I" secondAttribute="trailing" id="8vz-oR-NCn"/>
-                                                <constraint firstItem="p9C-gx-3KC" firstAttribute="top" secondItem="L6h-0c-ZXN" secondAttribute="bottom" constant="4" id="foq-ki-cdn"/>
-                                                <constraint firstItem="L6h-0c-ZXN" firstAttribute="top" secondItem="PfQ-27-47I" secondAttribute="bottom" constant="8" id="jhJ-hO-x69"/>
-                                                <constraint firstItem="PfQ-27-47I" firstAttribute="leading" secondItem="hCT-fg-Sqg" secondAttribute="leading" id="kI9-mW-ChK"/>
-                                                <constraint firstItem="PfQ-27-47I" firstAttribute="top" secondItem="hCT-fg-Sqg" secondAttribute="top" id="nDo-tV-ei6"/>
+                                                <constraint firstAttribute="trailing" secondItem="PfQ-27-47I" secondAttribute="trailing" constant="8" id="8vz-oR-NCn"/>
+                                                <constraint firstItem="L6h-0c-ZXN" firstAttribute="top" secondItem="PfQ-27-47I" secondAttribute="bottom" constant="8" id="eJ4-iT-97z"/>
+                                                <constraint firstItem="PfQ-27-47I" firstAttribute="leading" secondItem="hCT-fg-Sqg" secondAttribute="leading" constant="8" id="kI9-mW-ChK"/>
+                                                <constraint firstItem="PfQ-27-47I" firstAttribute="top" secondItem="hCT-fg-Sqg" secondAttribute="top" constant="8" id="nDo-tV-ei6"/>
                                                 <constraint firstItem="L6h-0c-ZXN" firstAttribute="leading" secondItem="hCT-fg-Sqg" secondAttribute="leading" constant="8" id="y7G-SQ-2YN"/>
                                             </constraints>
                                         </collectionViewCellContentView>

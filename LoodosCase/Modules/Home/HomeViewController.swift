@@ -18,17 +18,9 @@ final class HomeViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        print("viewDidLoad çalıştı")
-        print("COLLECTIONVIEW: \(collectionView ?? .init())")
-
         setupUI()
         configureLayout()
         bindViewModel()
-    }
-
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        print("CollectionView Frame: \(collectionView.frame)")
     }
 
     // MARK: - Setup
@@ -45,7 +37,7 @@ final class HomeViewController: UIViewController {
         if let layout = collectionView.collectionViewLayout as? UICollectionViewFlowLayout {
             layout.minimumLineSpacing = 12
             layout.minimumInteritemSpacing = 8
-            layout.sectionInset = UIEdgeInsets(top: 16, left: 16, bottom: 16, right: 16)
+            layout.sectionInset = UIEdgeInsets(top: 16, left: 12, bottom: 16, right: 12)
             layout.estimatedItemSize = .zero
         }
     }
@@ -54,7 +46,6 @@ final class HomeViewController: UIViewController {
         viewModel.onMoviesUpdated = { [weak self] in
             DispatchQueue.main.async {
                 guard let self = self else { return }
-                print("reloadData çağrıldı. Film sayısı: \(self.viewModel.movies.count)")
                 self.loadingIndicator.stopAnimating()
                 self.loadingIndicator.isHidden = true
                 self.collectionView.reloadData()
@@ -64,7 +55,6 @@ final class HomeViewController: UIViewController {
 
         viewModel.onLoadingStateChange = { [weak self] isLoading in
             DispatchQueue.main.async {
-                print("Loading durumu: \(isLoading)")
                 self?.loadingIndicator.isHidden = !isLoading
                 isLoading ? self?.loadingIndicator.startAnimating() : self?.loadingIndicator.stopAnimating()
             }
@@ -77,7 +67,6 @@ final class HomeViewController: UIViewController {
 extension HomeViewController: UISearchBarDelegate {
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         guard let query = searchBar.text, !query.isEmpty else { return }
-        print("Arama yapılıyor: \(query)")
         viewModel.searchMovies(query: query)
         searchBar.resignFirstResponder()
     }
@@ -87,16 +76,13 @@ extension HomeViewController: UISearchBarDelegate {
 
 extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        print("numberOfItemsInSection: \(viewModel.movies.count)")
         return viewModel.movies.count
     }
 
     func collectionView(_ collectionView: UICollectionView,
                         cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        print("Hücre oluşturuluyor: \(indexPath.item)")
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "MovieCollectionViewCell",
                                                             for: indexPath) as? MovieCollectionViewCell else {
-            print("Hücre tip dönüşümü başarısız")
             return UICollectionViewCell()
         }
 
@@ -108,12 +94,11 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
                         sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let padding: CGFloat = 16 + 8 + 16
+        let padding: CGFloat = 12 + 8 + 12 // sectionInsets + spacing
         let availableWidth = collectionView.bounds.width - padding
         let width = availableWidth / 2
-        let height = width * 1.5 + 40 // görsel + 2 label için yeterli alan
-        let size = CGSize(width: width, height: height)
-        print("Hücre boyutu: \(size)")
-        return size
+        let posterHeight = width * 3 / 2 // 2:3 oranı (genişlik × 1.5)
+        let textHeight: CGFloat = 48 // title + year label alanı
+        return CGSize(width: width, height: posterHeight + textHeight)
     }
 }

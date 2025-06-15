@@ -6,38 +6,48 @@
 //
 
 import UIKit
+import Kingfisher
 
 final class MovieCollectionViewCell: UICollectionViewCell {
-    
+
     @IBOutlet weak var posterImageView: UIImageView!
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var yearLabel: UILabel!
 
     override func awakeFromNib() {
         super.awakeFromNib()
-        print("MovieCollectionViewCell awakeFromNib çalıştı")
-        contentView.backgroundColor = .systemYellow // test için görünür yap
+
+        // Kart görünümü
+        contentView.backgroundColor = .systemBackground
+        contentView.layer.cornerRadius = 12
+        contentView.layer.masksToBounds = true
+        contentView.layer.borderWidth = 0.3
+        contentView.layer.borderColor = UIColor.systemGray5.cgColor
+
+        // Poster görünümü
+        posterImageView.contentMode = .scaleAspectFill
+        posterImageView.clipsToBounds = true
+        posterImageView.layer.cornerRadius = 8
+
+        // Başlık
+        titleLabel.font = .systemFont(ofSize: 14, weight: .semibold)
+        titleLabel.numberOfLines = 2
+        titleLabel.textAlignment = .center
+
+        // Yıl
+        yearLabel.font = .systemFont(ofSize: 12, weight: .regular)
+        yearLabel.textColor = .secondaryLabel
+        yearLabel.textAlignment = .center
     }
 
     func configure(with movie: Movie) {
-        print("configure: \(movie.title)")
         titleLabel.text = movie.title
         yearLabel.text = movie.year
 
         if movie.poster != "N/A", let url = URL(string: movie.poster) {
-            posterImageView.kf.setImage(with: url, placeholder: UIImage(named: "placeholder")) { result in
-                switch result {
-                case .success(let value):
-                    print("Poster yüklendi: \(value.source.url?.absoluteString ?? "")")
-                case .failure(let error):
-                    print("Görsel yüklenemedi: \(error)")
-                }
-            }
+            posterImageView.kf.setImage(with: url, placeholder: UIImage(named: "placeholder"))
         } else {
             posterImageView.image = UIImage(named: "placeholder")
-            print("Poster geçersiz veya 'N/A'")
         }
     }
-
 }
-
