@@ -21,50 +21,88 @@ final class DetailViewController: UIViewController {
     @IBOutlet weak var plotLabel: UILabel!
 
     // MARK: - Properties
-    var imdbID: String?
+    var imdbID: String? {
+        didSet {
+            // view yüklenmişse ve veri çekilmemişse başlat
+            if isViewLoaded && !hasFetched, let imdbID = imdbID {
+                fetchDetail(imdbID: imdbID)
+            }
+        }
+    }
     private let viewModel = DetailViewModel()
+    private var hasFetched = false
 
     // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
+
         print("Detail ekranı açıldı. imdbID: \(imdbID ?? "nil")")
+
+        // Poster image styling
+        posterImageView.layer.cornerRadius = 12
+        posterImageView.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
+        posterImageView.clipsToBounds = true
+
+        // Title styling
+        titleLabel.font = UIFont.boldSystemFont(ofSize: 20)
+        titleLabel.textAlignment = .center
+
         bindViewModel()
-        fetchDetail()
+    }
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        if let imdbID = imdbID, !hasFetched {
+            fetchDetail(imdbID: imdbID)
+        }
     }
 
     // MARK: - ViewModel Binding
     private func bindViewModel() {
         viewModel.onDetailLoaded = { [weak self] detail in
             guard let self = self else { return }
-            self.configure(with: detail)
-            self.logAnalytics(for: detail)
+            DispatchQueue.main.async {
+                self.configure(with: detail)
+                self.logAnalytics(for: detail)
+            }
         }
     }
 
     // MARK: - API
-    private func fetchDetail() {
-        guard let imdbID = imdbID else {
-            print("IMDb ID bulunamadı.")
-            return
-        }
+    private func fetchDetail(imdbID: String) {
+        hasFetched = true
         viewModel.fetchMovieDetail(imdbID: imdbID)
     }
 
     // MARK: - UI Binding
     private func configure(with detail: MovieDetail) {
         print("Veriler yükleniyor: \(detail.title)")
+
         titleLabel.text = detail.title
         plotLabel.text = detail.plot
-        runtimeLabel.text = detail.runtime
-        genreLabel.text = detail.genre
-        languageLabel.text = detail.language
-        imdbRatingLabel.text = detail.imdbRating
+
+        runtimeLabel.attributedText = iconText(systemName: "clock", text: detail.runtime)
+        genreLabel.attributedText = iconText(systemName: "film", text: detail.genre)
+        languageLabel.attributedText = iconText(systemName: "speaker.wave.2.fill", text: detail.language)
+        imdbRatingLabel.attributedText = iconText(systemName: "star.fill", text: detail.imdbRating, iconColor: .systemYellow)
 
         if let url = URL(string: detail.poster), detail.poster != "N/A" {
             posterImageView.kf.setImage(with: url, placeholder: UIImage(named: "placeholder"))
         } else {
             posterImageView.image = UIImage(named: "placeholder")
         }
+    }
+
+    // MARK: - Icon Helper
+    private func iconText(systemName: String, text: String, iconColor: UIColor = .label) -> NSAttributedString {
+        let attachment = NSTextAttachment()
+        attachment.image = UIImage(systemName: systemName)?.withTintColor(iconColor, renderingMode: .alwaysOriginal)
+        attachment.bounds = CGRect(x: 0, y: -1, width: 16, height: 16)
+
+        let attributedString = NSMutableAttributedString(attachment: attachment)
+        attributedString.append(NSAttributedString(string: " \(text)"))
+        return attributedString
     }
 
     // MARK: - Analytics

@@ -17,7 +17,6 @@ final class HomeViewController: UIViewController {
 
     // MARK: - Properties
     private var viewModel = HomeViewModel()
-    private var selectedMovieID: String?
 
     // MARK: - Lifecycle
     override func viewDidLoad() {
@@ -75,12 +74,15 @@ final class HomeViewController: UIViewController {
     // MARK: - Navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "showDetail",
+           let cell = sender as? UICollectionViewCell,
+           let indexPath = collectionView.indexPath(for: cell),
            let destination = segue.destination as? DetailViewController {
-            destination.imdbID = selectedMovieID
-            print("IMDb ID gönderildi: \(selectedMovieID ?? "nil")")
+            
+            let selectedMovie = viewModel.movies[indexPath.item]
+            destination.imdbID = selectedMovie.imdbID
+            print("IMDb ID gönderildi: \(selectedMovie.imdbID)")
         }
     }
-
 }
 
 // MARK: - UISearchBarDelegate
@@ -118,9 +120,5 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
         let width = availableWidth / 2
         let height = width * 1.5 + 48 // 2:3 oranlı görsel + yazılar
         return CGSize(width: width, height: height)
-    }
-
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        selectedMovieID = viewModel.movies[indexPath.item].imdbID
     }
 }
