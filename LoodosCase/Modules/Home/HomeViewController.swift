@@ -10,10 +10,10 @@ import UIKit
 final class HomeViewController: UIViewController {
 
     // MARK:- IBOutlets
-    @IBOutlet weak var searchBar: UISearchBar!
-    @IBOutlet weak var collectionView: UICollectionView!
-    @IBOutlet weak var loadingIndicator: UIActivityIndicatorView!
-    @IBOutlet weak var emptyLabel: UILabel!
+    @IBOutlet private weak var searchBar: UISearchBar!
+    @IBOutlet private weak var collectionView: UICollectionView!
+    @IBOutlet private weak var loadingIndicator: UIActivityIndicatorView!
+    @IBOutlet private weak var emptyLabel: UILabel!
 
     // MARK:- Properties
     private var viewModel = HomeViewModel()
@@ -31,17 +31,17 @@ final class HomeViewController: UIViewController {
     private func setupUI() {
         searchBar.delegate = self
         collectionView.dataSource = self
-        collectionView.delegate   = self
-        emptyLabel.isHidden       = true
+        collectionView.delegate = self
+        emptyLabel.isHidden = true
         loadingIndicator.isHidden = true
     }
 
     private func configureLayout() {
         if let layout = collectionView.collectionViewLayout as? UICollectionViewFlowLayout {
-            layout.minimumLineSpacing      = 12
+            layout.minimumLineSpacing = 12
             layout.minimumInteritemSpacing = 8
-            layout.sectionInset            = .init(top: 16, left: 12, bottom: 16, right: 12)
-            layout.estimatedItemSize       = .zero
+            layout.sectionInset = .init(top: 16, left: 12, bottom: 16, right: 12)
+            layout.estimatedItemSize = .zero
         }
     }
 
@@ -68,7 +68,7 @@ final class HomeViewController: UIViewController {
     private func updateEmptyState() {
         let empty = viewModel.movies.isEmpty
         emptyLabel.isHidden = !empty
-        emptyLabel.text     = empty ? "Sonuç bulunamadı." : ""
+        emptyLabel.text = empty ? "Sonuç bulunamadı." : ""
     }
 
     // MARK:- Navigation
@@ -76,7 +76,7 @@ final class HomeViewController: UIViewController {
         if segue.identifier == "showDetail",
            let idx = selectedIndexPath,
            let dst = segue.destination as? DetailViewController {
-            dst.imdbID = viewModel.movies[idx.item].imdbID   //  ←  tek atama
+            dst.imdbID = viewModel.movies[idx.item].imdbID 
         }
     }
 }

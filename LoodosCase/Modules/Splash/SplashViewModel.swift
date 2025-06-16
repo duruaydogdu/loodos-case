@@ -49,8 +49,9 @@ final class SplashViewModel: SplashViewModelProtocol {
         }
 
         remoteConfigService.fetchLoodosText { [weak self] text in
+            guard let self = self else { return }
             print("RemoteConfig'ten gelen splash text: \(text ?? "nil")")
-            self?.onTextFetched?(text)
+            self.onTextFetched?(text)
         }
     }
 }

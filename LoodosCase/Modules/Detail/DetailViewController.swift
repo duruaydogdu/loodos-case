@@ -13,15 +13,15 @@ import UserNotifications
 final class DetailViewController: UIViewController {
 
     // MARK: Outlets
-    @IBOutlet private weak var contentView       : UIView!
-    @IBOutlet private weak var posterImageView   : UIImageView!
-    @IBOutlet private weak var runtimeLabel      : UILabel!
-    @IBOutlet private weak var genreLabel        : UILabel!
-    @IBOutlet private weak var languageLabel     : UILabel!
-    @IBOutlet private weak var imdbRatingLabel   : UILabel!
-    @IBOutlet private weak var titleLabel        : UILabel!
-    @IBOutlet private weak var plotLabel         : UILabel!
-    @IBOutlet private weak var loadingIndicator  : UIActivityIndicatorView!
+    @IBOutlet private weak var contentView : UIView!
+    @IBOutlet private weak var posterImageView : UIImageView!
+    @IBOutlet private weak var runtimeLabel : UILabel!
+    @IBOutlet private weak var genreLabel : UILabel!
+    @IBOutlet private weak var languageLabel : UILabel!
+    @IBOutlet private weak var imdbRatingLabel : UILabel!
+    @IBOutlet private weak var titleLabel : UILabel!
+    @IBOutlet private weak var plotLabel : UILabel!
+    @IBOutlet private weak var loadingIndicator : UIActivityIndicatorView!
     
     // MARK: Properties
     var imdbID: String? {
@@ -42,9 +42,9 @@ final class DetailViewController: UIViewController {
     // MARK: UI
     private func setupUI() {
         posterImageView.layer.cornerRadius = 12
-        posterImageView.clipsToBounds      = true
+        posterImageView.clipsToBounds = true
 
-        titleLabel.font          = .boldSystemFont(ofSize: 20)
+        titleLabel.font = .boldSystemFont(ofSize: 20)
         titleLabel.textAlignment = .center
 
         contentView.isHidden = true
@@ -73,15 +73,14 @@ final class DetailViewController: UIViewController {
 
     // MARK: Configure UI
     private func configure(with d: MovieDetail) {
-        // Spinner kapat – içerik göster
         loadingIndicator.stopAnimating()
         contentView.isHidden = false
 
         titleLabel.text = d.title
-        plotLabel.text  = d.plot
-        runtimeLabel.attributedText    = icon("clock", d.runtime)
-        genreLabel.attributedText      = icon("film",  d.genre)
-        languageLabel.attributedText   = icon("speaker.wave.2.fill", d.language)
+        plotLabel.text = d.plot
+        runtimeLabel.attributedText = icon("clock", d.runtime)
+        genreLabel.attributedText = icon("film",  d.genre)
+        languageLabel.attributedText = icon("speaker.wave.2.fill", d.language)
         imdbRatingLabel.attributedText = icon("star.fill", d.imdbRating, .systemYellow)
 
         if d.poster != "N/A", let url = URL(string: d.poster) {
@@ -114,7 +113,7 @@ final class DetailViewController: UIViewController {
     private func scheduleNotification(for title: String) {
         let content = UNMutableNotificationContent()
         content.title = "Yeni Film İncelemesi"
-        content.body  = "\(title) detayları görüntülendi."
+        content.body = "\(title) detayları görüntülendi."
         content.sound = .default
         let request = UNNotificationRequest(identifier: UUID().uuidString,
                                             content: content,

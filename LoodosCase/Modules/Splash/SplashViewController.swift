@@ -10,7 +10,7 @@ import UIKit
 final class SplashViewController: UIViewController {
     
     // MARK: - Outlets
-    @IBOutlet weak var titleLabel: UILabel!
+    @IBOutlet private weak var titleLabel: UILabel!
     
     // MARK: - Properties
     private var viewModel: SplashViewModelProtocol = SplashViewModel()
@@ -65,15 +65,15 @@ final class SplashViewController: UIViewController {
 
     // MARK: - Alerts
     private func showNoInternetAlert() {
-        let alert = UIAlertController(
+        AlertHelper.showRetryAlert(
+            on: self,
             title: "Bağlantı Yok",
             message: "Lütfen internet bağlantınızı kontrol edin.",
-            preferredStyle: .alert
+            onRetry: { [weak self] in
+                guard let self = self else { return }
+                self.bindViewModel()
+                self.viewModel.waitAndFetchSplashText()
+            }
         )
-        alert.addAction(UIAlertAction(title: "Tekrar Dene", style: .default, handler: { _ in
-            self.bindViewModel()
-            self.viewModel.waitAndFetchSplashText()
-        }))
-        present(alert, animated: true)
     }
 }
