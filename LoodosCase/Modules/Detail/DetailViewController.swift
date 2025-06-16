@@ -38,15 +38,7 @@ final class DetailViewController: UIViewController {
 
         print("Detail ekranı açıldı. imdbID: \(imdbID ?? "nil")")
 
-        // Poster image styling
-        posterImageView.layer.cornerRadius = 12
-        posterImageView.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
-        posterImageView.clipsToBounds = true
-
-        // Title styling
-        titleLabel.font = UIFont.boldSystemFont(ofSize: 20)
-        titleLabel.textAlignment = .center
-
+        setupUI()
         bindViewModel()
     }
 
@@ -56,6 +48,17 @@ final class DetailViewController: UIViewController {
         if let imdbID = imdbID, !hasFetched {
             fetchDetail(imdbID: imdbID)
         }
+    }
+
+    // MARK: - Setup
+    private func setupUI() {
+        // Poster görseli tüm köşelere radius
+        posterImageView.layer.cornerRadius = 12
+        posterImageView.clipsToBounds = true
+
+        // Başlık font ayarı
+        titleLabel.font = UIFont.boldSystemFont(ofSize: 20)
+        titleLabel.textAlignment = .center
     }
 
     // MARK: - ViewModel Binding
@@ -95,7 +98,7 @@ final class DetailViewController: UIViewController {
         }
     }
 
-    // MARK: - Icon Helper
+    // MARK: - Icon + Text Helper
     private func iconText(systemName: String, text: String, iconColor: UIColor = .label) -> NSAttributedString {
         let attachment = NSTextAttachment()
         attachment.image = UIImage(systemName: systemName)?.withTintColor(iconColor, renderingMode: .alwaysOriginal)
