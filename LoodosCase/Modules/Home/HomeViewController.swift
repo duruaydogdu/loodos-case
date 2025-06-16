@@ -9,16 +9,17 @@ import UIKit
 
 final class HomeViewController: UIViewController {
 
-    // MARK: - IBOutlets
+    // MARK:- IBOutlets
     @IBOutlet weak var searchBar: UISearchBar!
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var loadingIndicator: UIActivityIndicatorView!
     @IBOutlet weak var emptyLabel: UILabel!
 
-    // MARK: - Properties
+    // MARK:- Properties
     private var viewModel = HomeViewModel()
+    private var selectedIndexPath: IndexPath?
 
-    // MARK: - Lifecycle
+    // MARK:- Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
@@ -26,100 +27,93 @@ final class HomeViewController: UIViewController {
         bindViewModel()
     }
 
-    // MARK: - Setup
+    // MARK:- UI
     private func setupUI() {
         searchBar.delegate = self
         collectionView.dataSource = self
-        collectionView.delegate = self
-        emptyLabel.isHidden = true
+        collectionView.delegate   = self
+        emptyLabel.isHidden       = true
         loadingIndicator.isHidden = true
     }
 
     private func configureLayout() {
         if let layout = collectionView.collectionViewLayout as? UICollectionViewFlowLayout {
-            layout.minimumLineSpacing = 12
+            layout.minimumLineSpacing      = 12
             layout.minimumInteritemSpacing = 8
-            layout.sectionInset = UIEdgeInsets(top: 16, left: 12, bottom: 16, right: 12)
-            layout.estimatedItemSize = .zero
+            layout.sectionInset            = .init(top: 16, left: 12, bottom: 16, right: 12)
+            layout.estimatedItemSize       = .zero
         }
     }
 
-    // MARK: - ViewModel Binding
+    // MARK:- ViewModel
     private func bindViewModel() {
         viewModel.onMoviesUpdated = { [weak self] in
             DispatchQueue.main.async {
-                guard let self = self else { return }
-                self.loadingIndicator.stopAnimating()
-                self.loadingIndicator.isHidden = true
-                self.collectionView.reloadData()
-                self.updateEmptyState()
+                self?.loadingIndicator.stopAnimating()
+                self?.loadingIndicator.isHidden = true
+                self?.collectionView.reloadData()
+                self?.updateEmptyState()
             }
         }
 
-        viewModel.onLoadingStateChange = { [weak self] isLoading in
+        viewModel.onLoadingStateChange = { [weak self] loading in
             DispatchQueue.main.async {
-                self?.loadingIndicator.isHidden = !isLoading
-                isLoading ? self?.loadingIndicator.startAnimating() : self?.loadingIndicator.stopAnimating()
+                loading ? self?.loadingIndicator.startAnimating()
+                        : self?.loadingIndicator.stopAnimating()
+                self?.loadingIndicator.isHidden = !loading
             }
         }
     }
 
-    // MARK: - Empty State
     private func updateEmptyState() {
-        let isEmpty = viewModel.movies.isEmpty
-        emptyLabel.isHidden = !isEmpty
-        emptyLabel.text = isEmpty ? "Sonuç bulunamadı." : ""
+        let empty = viewModel.movies.isEmpty
+        emptyLabel.isHidden = !empty
+        emptyLabel.text     = empty ? "Sonuç bulunamadı." : ""
     }
 
-    // MARK: - Navigation
+    // MARK:- Navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "showDetail",
-           let cell = sender as? UICollectionViewCell,
-           let indexPath = collectionView.indexPath(for: cell),
-           let destination = segue.destination as? DetailViewController {
-
-            let selectedMovie = viewModel.movies[indexPath.item]
-            destination.imdbID = selectedMovie.imdbID
-            print("IMDb ID gönderildi: \(selectedMovie.imdbID)")
+           let idx = selectedIndexPath,
+           let dst = segue.destination as? DetailViewController {
+            dst.imdbID = viewModel.movies[idx.item].imdbID   //  ←  tek atama
         }
     }
 }
 
-// MARK: - UISearchBarDelegate
+// MARK:- Delegates
 extension HomeViewController: UISearchBarDelegate {
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        guard let query = searchBar.text?.trimmingCharacters(in: .whitespaces), !query.isEmpty else { return }
-        viewModel.searchMovies(query: query)
+        guard let q = searchBar.text?.trimmingCharacters(in: .whitespaces), !q.isEmpty else { return }
+        viewModel.searchMovies(query: q)
         searchBar.resignFirstResponder()
     }
 }
 
-// MARK: - UICollectionViewDataSource & DelegateFlowLayout
 extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
 
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return viewModel.movies.count
+    func collectionView(_ cv: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        viewModel.movies.count
     }
 
-    func collectionView(_ collectionView: UICollectionView,
+    func collectionView(_ cv: UICollectionView,
                         cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "MovieCollectionViewCell",
-                                                            for: indexPath) as? MovieCollectionViewCell else {
-            return UICollectionViewCell()
-        }
-
-        let movie = viewModel.movies[indexPath.item]
-        cell.configure(with: movie)
+        let cell = cv.dequeueReusableCell(withReuseIdentifier: "MovieCollectionViewCell",
+                                          for: indexPath) as! MovieCollectionViewCell
+        cell.configure(with: viewModel.movies[indexPath.item])
         return cell
     }
 
-    func collectionView(_ collectionView: UICollectionView,
-                        layout collectionViewLayout: UICollectionViewLayout,
+    func collectionView(_ cv: UICollectionView,
+                        layout _: UICollectionViewLayout,
                         sizeForItemAt indexPath: IndexPath) -> CGSize {
         let padding: CGFloat = 12 + 8 + 12
-        let availableWidth = collectionView.bounds.width - padding
-        let width = availableWidth / 2
-        let height = width * 1.5 + 48 // 2:3 oranlı görsel + başlık ve yıl
-        return CGSize(width: width, height: height)
+        let w = (cv.bounds.width - padding) / 2
+        return CGSize(width: w, height: w * 1.5 + 48)
+    }
+
+    func collectionView(_ cv: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        selectedIndexPath = indexPath
+        performSegue(withIdentifier: "showDetail", sender: self)
     }
 }

@@ -110,7 +110,6 @@
                                             <outlet property="posterImageView" destination="PfQ-27-47I" id="ElD-fP-sVs"/>
                                             <outlet property="titleLabel" destination="L6h-0c-ZXN" id="GPq-jO-RZe"/>
                                             <outlet property="yearLabel" destination="p9C-gx-3KC" id="zy4-Qn-ocK"/>
-                                            <segue destination="PdX-IN-tWi" kind="show" identifier="showDetail" id="QbM-RE-6AM"/>
                                         </connections>
                                     </collectionViewCell>
                                 </cells>
@@ -149,6 +148,7 @@
                         <outlet property="emptyLabel" destination="Dzb-8n-cdP" id="e9L-D3-DFS"/>
                         <outlet property="loadingIndicator" destination="lfN-KU-1zS" id="i1u-KP-qXp"/>
                         <outlet property="searchBar" destination="xCo-UJ-KEN" id="Sru-W3-qbu"/>
+                        <segue destination="PdX-IN-tWi" kind="show" identifier="showDetail" id="zKT-pE-jb2"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="sff-PY-daU" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -166,6 +166,10 @@
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="e3t-gP-rPw">
                                 <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                                 <subviews>
+                                    <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" hidesWhenStopped="YES" style="medium" translatesAutoresizingMaskIntoConstraints="NO" id="dBA-QC-wBa">
+                                        <rect key="frame" x="186" y="313" width="20" height="20"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    </activityIndicatorView>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="IAg-JT-9qJ">
                                         <rect key="frame" x="0.0" y="-103" width="393" height="852"/>
                                         <subviews>
@@ -190,7 +194,7 @@
                                                         <nil key="textColor"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="right" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gNr-Xo-yS4">
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gNr-Xo-yS4">
                                                         <rect key="frame" x="212.66666666666666" y="0.0" width="100.33333333333334" height="20.333333333333332"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                         <nil key="textColor"/>
@@ -223,7 +227,7 @@
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="f2S-PQ-19y">
-                                                <rect key="frame" x="40" y="611.33333333333326" width="41.333333333333343" height="20.333333333333371"/>
+                                                <rect key="frame" x="40" y="611.33333333333337" width="313" height="20.333333333333371"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
@@ -238,6 +242,7 @@
                                             <constraint firstItem="a6V-Hh-NvW" firstAttribute="top" secondItem="IAg-JT-9qJ" secondAttribute="top" constant="100" id="IU4-xT-0BN"/>
                                             <constraint firstItem="rcT-6L-pK2" firstAttribute="leading" secondItem="IAg-JT-9qJ" secondAttribute="leading" constant="40" id="LRz-qm-p7r"/>
                                             <constraint firstItem="rcT-6L-pK2" firstAttribute="top" secondItem="7g1-70-lyE" secondAttribute="bottom" constant="12" id="ToC-af-bNT"/>
+                                            <constraint firstItem="f2S-PQ-19y" firstAttribute="centerX" secondItem="IAg-JT-9qJ" secondAttribute="centerX" id="Tsi-NB-9gx"/>
                                             <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="f2S-PQ-19y" secondAttribute="trailing" constant="40" id="UKe-ox-PqN"/>
                                             <constraint firstAttribute="trailing" secondItem="dOI-w0-QvQ" secondAttribute="trailing" constant="40" id="WQa-l4-jjC"/>
                                             <constraint firstItem="dOI-w0-QvQ" firstAttribute="bottomMargin" secondItem="7g1-70-lyE" secondAttribute="top" constant="-14" id="bCb-dm-982"/>
@@ -253,7 +258,7 @@
                                 <constraints>
                                     <constraint firstItem="IAg-JT-9qJ" firstAttribute="width" secondItem="e3t-gP-rPw" secondAttribute="width" id="1jN-h4-b6l"/>
                                     <constraint firstItem="IAg-JT-9qJ" firstAttribute="leading" secondItem="e3t-gP-rPw" secondAttribute="leading" id="Iea-cI-69R"/>
-                                    <constraint firstAttribute="bottom" secondItem="IAg-JT-9qJ" secondAttribute="bottom" constant="20" id="Vcn-Z6-ZIJ"/>
+                                    <constraint firstAttribute="bottom" secondItem="IAg-JT-9qJ" secondAttribute="bottom" id="Vcn-Z6-ZIJ"/>
                                     <constraint firstItem="IAg-JT-9qJ" firstAttribute="top" secondItem="pEZ-hB-6YP" secondAttribute="top" id="YjJ-lr-oFz"/>
                                     <constraint firstAttribute="trailing" secondItem="IAg-JT-9qJ" secondAttribute="trailing" id="gRw-ZI-e7b"/>
                                     <constraint firstItem="IAg-JT-9qJ" firstAttribute="bottom" secondItem="pEZ-hB-6YP" secondAttribute="bottom" id="hhp-Ym-9vm"/>
@@ -273,9 +278,11 @@
                     </view>
                     <navigationItem key="navigationItem" id="tSi-D7-b5e"/>
                     <connections>
+                        <outlet property="contentView" destination="IAg-JT-9qJ" id="hkw-nG-AGx"/>
                         <outlet property="genreLabel" destination="GD8-cY-Czl" id="MKl-ch-h2y"/>
                         <outlet property="imdbRatingLabel" destination="cGu-BU-DQQ" id="IuY-3q-QRa"/>
                         <outlet property="languageLabel" destination="gNr-Xo-yS4" id="Xcy-dn-dEg"/>
+                        <outlet property="loadingIndicator" destination="dBA-QC-wBa" id="zer-9M-a7y"/>
                         <outlet property="plotLabel" destination="f2S-PQ-19y" id="tQR-Wt-0jt"/>
                         <outlet property="posterImageView" destination="a6V-Hh-NvW" id="Wl7-HC-vXV"/>
                         <outlet property="runtimeLabel" destination="smM-mP-eeA" id="mrj-Y7-gkB"/>

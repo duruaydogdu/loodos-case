@@ -22,20 +22,13 @@ final class DetailViewModel {
 
     // MARK: - Actions
     func fetchMovieDetail(imdbID: String) {
-        guard let detailLoaded = onDetailLoaded else {
-            print("onDetailLoaded atanmadı. ViewModel bind edilmeden çağrılmış olabilir.")
-            return
-        }
-
         Task {
             do {
-                print("Detay verisi isteniyor: \(imdbID)")
+                print("VM-FETCH \(imdbID)")
                 let detail = try await movieService.fetchMovieDetail(imdbID: imdbID)
-                DispatchQueue.main.async {
-                    detailLoaded(detail)
-                }
+                DispatchQueue.main.async { self.onDetailLoaded?(detail) }
             } catch {
-                print("Detay verisi çekilemedi: \(error.localizedDescription)")
+                print("VM-ERROR", error.localizedDescription)
             }
         }
     }
