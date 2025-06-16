@@ -8,6 +8,7 @@
 import UIKit
 import Kingfisher
 import FirebaseAnalytics
+import UserNotifications
 
 final class DetailViewController: UIViewController {
 
@@ -23,7 +24,6 @@ final class DetailViewController: UIViewController {
     // MARK: - Properties
     var imdbID: String? {
         didSet {
-            // view yüklenmişse ve veri çekilmemişse başlat
             if isViewLoaded && !hasFetched, let imdbID = imdbID {
                 fetchDetail(imdbID: imdbID)
             }
@@ -52,7 +52,7 @@ final class DetailViewController: UIViewController {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
+
         if let imdbID = imdbID, !hasFetched {
             fetchDetail(imdbID: imdbID)
         }
@@ -65,6 +65,7 @@ final class DetailViewController: UIViewController {
             DispatchQueue.main.async {
                 self.configure(with: detail)
                 self.logAnalytics(for: detail)
+                self.triggerLocalNotification(for: detail.title)
             }
         }
     }
@@ -115,5 +116,27 @@ final class DetailViewController: UIViewController {
                 genre: detail.genre
             )
         )
+    }
+
+    // MARK: - Local Notification (Push simülasyonu)
+    private func triggerLocalNotification(for title: String) {
+        let content = UNMutableNotificationContent()
+        content.title = "Yeni Film İncelemesi"
+        content.body = "\(title) detayları görüntülendi."
+        content.sound = .default
+
+        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 2, repeats: false)
+
+        let request = UNNotificationRequest(identifier: UUID().uuidString,
+                                            content: content,
+                                            trigger: trigger)
+
+        UNUserNotificationCenter.current().add(request) { error in
+            if let error = error {
+                print("Bildirim gönderilemedi: \(error.localizedDescription)")
+            } else {
+                print("Local notification scheduled for: \(title)")
+            }
+        }
     }
 }

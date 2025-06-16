@@ -38,7 +38,7 @@ final class AnalyticsService {
 
     func logEvent(_ event: AnalyticsEvent) {
         Analytics.logEvent(event.name, parameters: event.parameters)
-        print("📊 [Analytics] Event logged: \(event.name)")
+        print("[Analytics] Event logged: \(event.name)")
     }
 }
 

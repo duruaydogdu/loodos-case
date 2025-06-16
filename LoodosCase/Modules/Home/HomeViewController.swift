@@ -77,7 +77,7 @@ final class HomeViewController: UIViewController {
            let cell = sender as? UICollectionViewCell,
            let indexPath = collectionView.indexPath(for: cell),
            let destination = segue.destination as? DetailViewController {
-            
+
             let selectedMovie = viewModel.movies[indexPath.item]
             destination.imdbID = selectedMovie.imdbID
             print("IMDb ID gönderildi: \(selectedMovie.imdbID)")
@@ -88,17 +88,17 @@ final class HomeViewController: UIViewController {
 // MARK: - UISearchBarDelegate
 extension HomeViewController: UISearchBarDelegate {
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        guard let query = searchBar.text, !query.trimmingCharacters(in: .whitespaces).isEmpty else { return }
+        guard let query = searchBar.text?.trimmingCharacters(in: .whitespaces), !query.isEmpty else { return }
         viewModel.searchMovies(query: query)
         searchBar.resignFirstResponder()
     }
 }
 
-// MARK: - UICollectionViewDataSource & UICollectionViewDelegateFlowLayout
+// MARK: - UICollectionViewDataSource & DelegateFlowLayout
 extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
 
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        viewModel.movies.count
+        return viewModel.movies.count
     }
 
     func collectionView(_ collectionView: UICollectionView,
@@ -107,6 +107,7 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
                                                             for: indexPath) as? MovieCollectionViewCell else {
             return UICollectionViewCell()
         }
+
         let movie = viewModel.movies[indexPath.item]
         cell.configure(with: movie)
         return cell
@@ -118,7 +119,7 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
         let padding: CGFloat = 12 + 8 + 12
         let availableWidth = collectionView.bounds.width - padding
         let width = availableWidth / 2
-        let height = width * 1.5 + 48 // 2:3 oranlı görsel + yazılar
+        let height = width * 1.5 + 48 // 2:3 oranlı görsel + başlık ve yıl
         return CGSize(width: width, height: height)
     }
 }

@@ -11,40 +11,27 @@ import FirebaseMessaging
 import UserNotifications
 
 @main
-class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate, MessagingDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate {
 
-    // uygulama ilk kez açıldığında çalışır. gerekli başlatmaları yapıyoruz.
+    // MARK: - UIApplicationDelegate
+
     func application(_ application: UIApplication,
                      didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
 
-        // firebase sdk başlatma
+        // Firebase başlatma
         FirebaseApp.configure()
 
-        // push notification ayarları
-        UNUserNotificationCenter.current().delegate = self // gelen bildirimleri kontrol etmek için
-        Messaging.messaging().delegate = self // push token işlemleri için
+        // Bildirim izinlerini talep et
+        UNUserNotificationCenter.current().delegate = self
+        Messaging.messaging().delegate = self
 
         let options: UNAuthorizationOptions = [.alert, .sound, .badge]
         UNUserNotificationCenter.current().requestAuthorization(options: options) { granted, error in
             print("Notification permission granted: \(granted)")
         }
 
-        application.registerForRemoteNotifications() // sistemden push notification alma isteği
-
+        application.registerForRemoteNotifications()
         return true
-    }
-
-    // MARK: - Firebase Messaging
-    // push token alma, delegate yönetimi
-    func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String?) {
-        print("FCM Token: \(fcmToken ?? "nil")")
-    }
-
-    // uygulama foreground'da iken bile bildirim gelme ayarı
-    func userNotificationCenter(_ center: UNUserNotificationCenter,
-                                willPresent notification: UNNotification,
-                                withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
-        completionHandler([.banner, .sound])
     }
 
     // MARK: - UISceneSession Lifecycle
@@ -52,7 +39,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     func application(_ application: UIApplication,
                      configurationForConnecting connectingSceneSession: UISceneSession,
                      options: UIScene.ConnectionOptions) -> UISceneConfiguration {
-
         return UISceneConfiguration(name: "Default Configuration", sessionRole: connectingSceneSession.role)
     }
 
@@ -60,4 +46,23 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
                      didDiscardSceneSessions sceneSessions: Set<UISceneSession>) {}
 }
 
+// MARK: - UNUserNotificationCenterDelegate
 
+extension AppDelegate: UNUserNotificationCenterDelegate {
+    // Uygulama açıkken gelen bildirimleri göster (local veya remote)
+    func userNotificationCenter(_ center: UNUserNotificationCenter,
+                                willPresent notification: UNNotification,
+                                withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+        completionHandler([.banner, .sound])
+    }
+}
+
+// MARK: - MessagingDelegate (Firebase)
+
+extension AppDelegate: MessagingDelegate {
+    func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String?) {
+        print("FCM Token: \(fcmToken ?? "nil")")
+        // İsteğe bağlı: token'ı backend'e gönder
+        // APIManager.shared.sendFCMToken(fcmToken)
+    }
+}

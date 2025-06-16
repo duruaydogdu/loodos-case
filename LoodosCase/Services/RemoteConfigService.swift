@@ -19,7 +19,7 @@ final class RemoteConfigService: RemoteConfigServiceProtocol {
         self.remoteConfig = remoteConfig
 
         let settings = RemoteConfigSettings()
-        settings.minimumFetchInterval = 0 // ✅ Her denemede fetch edilsin
+        settings.minimumFetchInterval = 0
         remoteConfig.configSettings = settings
     }
 
